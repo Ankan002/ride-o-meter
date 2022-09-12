@@ -4,3 +4,31 @@
 
 @import url('https://fonts.googleapis.com/css2?family=Fira+Code&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Manrope:wght@300&display=swap');
+
+::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+    background: rgba(0,0,0,0.1);
+    border-radius: 100vh;
+    height: 100%;
+}
+
+::-webkit-scrollbar-corner {
+    background: rgba(0,0,0,0.1);
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+    background: #FC5A31;
+    border-radius: 100vh;
+    border: 1px solid #08070C;
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+    background: #FC5A31;
+}
