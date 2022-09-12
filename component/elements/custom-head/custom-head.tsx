@@ -12,7 +12,7 @@ const CustomHead = (props: Props) => {
         <Head>
             <title>{title}</title>
             <meta name="description" content="An app that can calculate cab fares with practical prices." />
-            <link rel="icon" href="/favicon.ico" />
+            <link rel="icon" href="/o-logo.svg" />
         </Head>
     );
 };

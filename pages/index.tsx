@@ -6,7 +6,7 @@ const Home: NextPage = () => {
     <div className="min-h-screen w-full flex flex-col bg-primaryLight">
       <CustomHead title="Ride O Meter" />
 
-      <h1 className="text-2xl font-fira-code">
+      <h1 className="text-2xl font-manrope">
         Hello from Ride O Meter
       </h1>
     </div>
