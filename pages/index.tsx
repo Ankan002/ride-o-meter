@@ -3,7 +3,7 @@ import {CustomHead} from "../component/elements";
 
 const Home: NextPage = () => {
   return (
-    <div className="min-h-screen w-full flex flex-col">
+    <div className="min-h-screen w-full flex flex-col bg-primaryLight">
       <CustomHead title="Ride O Meter" />
 
       <h1 className="text-2xl font-fira-code">
