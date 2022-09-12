@@ -1,5 +1,6 @@
 import React from 'react';
 import Image from "next/image";
+import {IoIosSettings} from "react-icons/io";
 
 const Navbar = () => {
     return (
@@ -12,6 +13,12 @@ const Navbar = () => {
                 <h1 className="ml-2">
                     Meter
                 </h1>
+            </div>
+
+            <div className="flex items-center justify-center">
+                <button className="p-1 border-2 border-black bg-primaryYellow rounded-md">
+                    <IoIosSettings size={25} className="text-primaryDark" />
+                </button>
             </div>
         </div>
     );
