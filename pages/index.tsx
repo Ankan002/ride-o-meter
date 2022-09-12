@@ -7,7 +7,7 @@ const Home: NextPage = () => {
     <div className="min-h-screen w-full flex flex-col bg-primaryLight">
       <CustomHead title="Ride O Meter" />
 
-      <div className="h-screen w-full">
+      <div className="h-screen w-full flex flex-col">
           <Navbar />
       </div>
     </div>
