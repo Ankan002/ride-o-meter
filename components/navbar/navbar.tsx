@@ -1,8 +1,18 @@
-import React from 'react';
+import React, {Dispatch, SetStateAction} from 'react';
 import Image from "next/image";
 import {IoIosSettings} from "react-icons/io";
 
-const Navbar = () => {
+interface Props {
+    setIsSettingsModalOpen: Dispatch<SetStateAction<boolean>>;
+}
+
+const Navbar = (props: Props) => {
+    const {setIsSettingsModalOpen} = props;
+
+    const onSettingsButtonClick = () => {
+        setIsSettingsModalOpen((prev) => !prev);
+    }
+
     return (
         <div className="w-full py-2 px-5 flex items-center justify-between">
             <div className="flex items-center justify-center font-manrope font-thin tracking-widest lg:text-2xl sm:text-xl text-lg text-primaryDark">
@@ -16,7 +26,7 @@ const Navbar = () => {
             </div>
 
             <div className="flex items-center justify-center">
-                <button className="p-1 border-2 border-black bg-primaryYellow rounded-md">
+                <button className="p-1 border-2 border-black bg-primaryYellow rounded-md" onClick={onSettingsButtonClick}>
                     <IoIosSettings size={25} className="text-primaryDark" />
                 </button>
             </div>
