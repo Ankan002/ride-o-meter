@@ -1,5 +1,6 @@
 import React, {Dispatch, SetStateAction} from 'react';
 import Modal from "react-modal";
+import {ModalHeader} from "components/modal-elements";
 
 interface Props {
     isOpen: boolean;
@@ -27,8 +28,8 @@ const SettingsModal = (props: Props) => {
             }}
             closeTimeoutMS={500}
         >
-            <div className="w-full h-[90vh] overflow-y-scroll bg-white border-l-2 border-r-2 border-t-2 border-l-primaryDark border-r-primaryDark border-t-primaryDark flex flex-col rounded-t-lg z-10">
-
+            <div className="w-full h-[90vh] overflow-y-scroll bg-primaryLight border-l-2 border-r-2 border-t-2 border-l-primaryDark border-r-primaryDark border-t-primaryDark flex flex-col rounded-t-lg z-10 px-5 py-2">
+                <ModalHeader title="Settings" onCloseRequested={onRequestedClose} />
             </div>
         </Modal>
     );
