@@ -7,7 +7,7 @@ interface Props {
 }
 
 const ModalHeader = (props: Props) => {
-    const { titlge, onCloseRequested } = props;
+    const { title, onCloseRequested } = props;
 
     return (
         <div className="w-full flex items-center justify-between">
