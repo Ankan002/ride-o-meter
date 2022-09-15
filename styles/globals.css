@@ -33,6 +33,11 @@
     background: #FC5A31;
 }
 
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+}
+
 .ReactModal__Overlay {
     opacity: 0;
     transform: translateY(90vh);
