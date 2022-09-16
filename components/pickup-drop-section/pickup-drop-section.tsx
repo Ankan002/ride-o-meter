@@ -1,19 +1,40 @@
-import React, {useState} from 'react';
+import React, {useCallback, useState} from 'react';
 import {PickupDropLocationButton} from "components/elements";
 import {PickLocationModal} from "components/modals";
+import toast from "react-hot-toast";
+import {geoDecode} from "helpers/location-encode-decode";
 
 const PickupDropSection = () => {
 
     const [isPickPickupLocationModalOpen, setIsPickPickupLocationModalOpen] = useState<boolean>(false);
     const [isPickDropLocationModalOpen, setIsPickDropLocationModalOpen] = useState<boolean>(false);
 
+    const onCurrentPositionCoordinatesReceived = useCallback(async(position: GeolocationPosition) => {
+        const addressResponse = await geoDecode(position.coords.latitude.toString(), position.coords.longitude.toString());
+
+        if(!addressResponse.success){
+            toast.error(addressResponse.error ?? "");
+            return
+        }
+
+        console.log({
+            address: addressResponse.address,
+            latitude: position.coords.latitude,
+            longitude: position.coords.longitude
+        });
+    }, []);
+
     const onPickupLocationButtonClick = () => {
-        console.log("P");
         setIsPickPickupLocationModalOpen(prev => !prev);
     };
 
     const onSelectCurrentLocationClick = () => {
-        console.log("L");
+        navigator.geolocation.getCurrentPosition(
+            onCurrentPositionCoordinatesReceived,
+            (err) => {
+                toast.error(err.message);
+            }
+        );
     }
 
     const onDropLocationButtonClick = () => {

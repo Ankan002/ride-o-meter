@@ -6,9 +6,22 @@ export const geoDecode = async (latitude: string, longitude: string) => {
     try{
         const location = await Geocode.fromLatLng(latitude, longitude);
 
-        console.log(location.results[0].formatted_address);
+        return {
+            success: true,
+            address: location?.results[0]?.formatted_address
+        };
     }
     catch (e) {
-        console.log(e);
+        if(e instanceof Error){
+            return {
+                success: false,
+                error: e.message
+            };
+        }
+
+        return {
+            success: false,
+            error: "Internal Server Error"
+        };
     }
 };
