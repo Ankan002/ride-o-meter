@@ -1,6 +1,6 @@
 import type { NextPage } from 'next';
 import {CustomHead} from "components/elements";
-import {Navbar, SettingsModal} from "components";
+import {Navbar, SettingsModal, PickupDropSection} from "components";
 import {useState} from "react";
 
 const Home: NextPage = () => {
@@ -12,6 +12,7 @@ const Home: NextPage = () => {
 
       <div className="h-screen w-full flex flex-col">
           <Navbar setIsSettingsModalOpen={setIsSettingsModalOpen} />
+          <PickupDropSection />
       </div>
 
       <SettingsModal isOpen={isSettingsModalOpen} setIsOpen={setIsSettingsModalOpen} />
