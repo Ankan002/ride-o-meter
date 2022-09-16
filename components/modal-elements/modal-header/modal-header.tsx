@@ -11,7 +11,7 @@ const ModalHeader = (props: Props) => {
 
     return (
         <div className="w-full flex items-center justify-between">
-            <h1 className="flex-1 mr-2 font-manrope md:text-2xl sm:text-xl text-lg font-thin tracking-widest">
+            <h1 className="flex-1 mr-2 font-manrope md:text-2xl sm:text-xl text-lg font-light tracking-widest">
                 {title}
             </h1>
             <button className="p-1 border-2 border-primaryDark bg-primaryYellow flex items-center justify-center rounded-md" onClick={onCloseRequested}>

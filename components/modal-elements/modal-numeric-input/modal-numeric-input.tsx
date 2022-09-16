@@ -14,7 +14,7 @@ const ModalNumericInput = (props: Props) => {
         <div className="w-full flex flex-col mt-2">
             {
                 title && (
-                    <h4 className="mt-3 font-manrope font-thin tracking-widest lg:text-lg sm:text-base text-xd">
+                    <h4 className="mt-3 font-manrope font-light tracking-widest lg:text-lg sm:text-base text-base">
                         {title}
                     </h4>
                 )

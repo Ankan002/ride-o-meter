@@ -1,0 +1,1 @@
+export type Cab = "shared" | "mini" | "sedan" | "suv" | "prime" | "xl" | "autoRickshaw";

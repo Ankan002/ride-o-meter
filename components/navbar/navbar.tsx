@@ -15,7 +15,7 @@ const Navbar = (props: Props) => {
 
     return (
         <div className="w-full py-2 px-5 flex items-center justify-between">
-            <div className="flex items-center justify-center font-manrope font-thin tracking-widest lg:text-2xl sm:text-xl text-lg text-primaryDark">
+            <div className="flex items-center justify-center font-manrope font-light tracking-widest lg:text-2xl sm:text-xl text-lg text-primaryDark">
                 <h1 className="mr-2">
                     Ride
                 </h1>
