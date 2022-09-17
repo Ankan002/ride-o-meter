@@ -6,6 +6,7 @@ import {geoDecode} from "helpers/location-encode-decode";
 import {useRecoilState} from "recoil";
 import {GeographicalLocation} from "types/geographical-location";
 import {pickupLocationAtom, dropLocationAtom} from "atoms";
+import PlaceResult = google.maps.places.PlaceResult;
 
 const PickupDropSection = () => {
 
@@ -59,16 +60,50 @@ const PickupDropSection = () => {
         setIsPickDropLocationModalOpen(prev => !prev);
     };
 
+    const onPickupLocationSelected = (location: PlaceResult) => {
+        const fullAddress = (`${location.name ?? ""} ${location.formatted_address ?? ""}`);
+
+        //TODO: Remove Console.logs
+        console.log(fullAddress);
+        console.log(location?.geometry?.location?.lat());
+        console.log(location?.geometry?.location?.lng());
+
+        setPickupLocation({
+            address: fullAddress,
+            latitude: location?.geometry?.location?.lat(),
+            longitude: location?.geometry?.location?.lng()
+        });
+
+        setIsPickPickupLocationModalOpen(false);
+    }
+
+    const onDropLocationSelected = (location: PlaceResult) => {
+        const fullAddress = (`${location.name ?? ""} ${location.formatted_address ?? ""}`);
+
+        //TODO: Remove Console.logs
+        console.log(fullAddress);
+        console.log(location?.geometry?.location?.lat());
+        console.log(location?.geometry?.location?.lng());
+
+        setDropLocation({
+            address: fullAddress,
+            latitude: location?.geometry?.location?.lat(),
+            longitude: location?.geometry?.location?.lng()
+        });
+
+        setIsPickDropLocationModalOpen(false);
+    }
+
     return (
         <div className="w-full mt-2 py-2 px-5 flex sm:flex-row flex-col items-center justify-center">
             <PickupDropLocationButton text={pickupLocation.address ?? ""} placeholder="Select pickup location" onClick={onPickupLocationButtonClick} includePickCurrentLocation={true} onPickCurrentLocationClick={onSelectCurrentLocationClick} />
 
-            <PickupDropLocationButton text={""} placeholder="Select drop location" onClick={onDropLocationButtonClick} includePickCurrentLocation={false} />
+            <PickupDropLocationButton text={dropLocation.address ?? ""} placeholder="Select drop location" onClick={onDropLocationButtonClick} includePickCurrentLocation={false} />
 
 
-            <PickLocationModal isOpen={isPickPickupLocationModalOpen} setIsOpen={setIsPickPickupLocationModalOpen} title="Pick Pickup Location" />
+            <PickLocationModal isOpen={isPickPickupLocationModalOpen} setIsOpen={setIsPickPickupLocationModalOpen} title="Pick Pickup Location" defaultText={pickupLocation.address ?? ""} onPlaceResultClick={onPickupLocationSelected} />
 
-            <PickLocationModal isOpen={isPickDropLocationModalOpen} setIsOpen={setIsPickDropLocationModalOpen} title="Pick Drop Location" />
+            <PickLocationModal isOpen={isPickDropLocationModalOpen} setIsOpen={setIsPickDropLocationModalOpen} title="Pick Drop Location" defaultText={dropLocation.address ?? ""} onPlaceResultClick={onDropLocationSelected} />
         </div>
     );
 };
