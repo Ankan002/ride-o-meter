@@ -3,11 +3,12 @@ import {PickupDropLocationButton} from "components/elements";
 import {PickLocationModal} from "components/modals";
 import toast from "react-hot-toast";
 import {geoDecode} from "helpers/location-encode-decode";
-import {useRecoilState} from "recoil";
+import {useRecoilState, useSetRecoilState} from "recoil";
 import {GeographicalLocation} from "types/geographical-location";
-import {pickupLocationAtom, dropLocationAtom} from "atoms";
+import {pickupLocationAtom, dropLocationAtom, currentRideAtom} from "atoms";
 import PlaceResult = google.maps.places.PlaceResult;
 import {getDistanceTime} from "helpers/get-distance-time";
+import {Ride} from "types/ride";
 
 const PickupDropSection = () => {
 
@@ -17,6 +18,8 @@ const PickupDropSection = () => {
 
     const [pickupLocation, setPickupLocation] = useRecoilState<GeographicalLocation>(pickupLocationAtom);
     const [dropLocation, setDropLocation] = useRecoilState<GeographicalLocation>(dropLocationAtom);
+
+    const setCurrentRide = useSetRecoilState<Ride>(currentRideAtom);
 
     const onCurrentPositionCoordinatesReceived = useCallback(async(position: GeolocationPosition) => {
         const addressResponse = await geoDecode(position.coords.latitude.toString(), position.coords.longitude.toString());
@@ -105,6 +108,12 @@ const PickupDropSection = () => {
             toast.error(response.error ?? "");
             return;
         }
+
+        setCurrentRide(prev => ({
+            distance: response.data?.distanceInMeters,
+            time: response.data?.estimatedTimeInSeconds,
+            cab: prev.cab ? prev.cab : "mini"
+        }));
 
         console.log(response.data);
     }
