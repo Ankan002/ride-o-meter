@@ -1,4 +1,4 @@
-import React, {useCallback, useState} from 'react';
+import React, {useCallback, useEffect, useState} from 'react';
 import {PickupDropLocationButton} from "components/elements";
 import {PickLocationModal} from "components/modals";
 import toast from "react-hot-toast";
@@ -7,7 +7,7 @@ import {useRecoilState} from "recoil";
 import {GeographicalLocation} from "types/geographical-location";
 import {pickupLocationAtom, dropLocationAtom} from "atoms";
 import PlaceResult = google.maps.places.PlaceResult;
-import PlacesServiceStatus = google.maps.places.PlacesServiceStatus;
+import {getDistanceTime} from "helpers/get-distance-time";
 
 const PickupDropSection = () => {
 
@@ -61,14 +61,9 @@ const PickupDropSection = () => {
         setIsPickDropLocationModalOpen(prev => !prev);
     };
 
-    const onPickupLocationSelected = (location: PlaceResult | null, status: PlacesServiceStatus) => {
+    const onPickupLocationSelected = (location: PlaceResult | null) => {
         if(!location) return;
         const fullAddress = (`${location.name ?? ""} ${location.formatted_address ?? ""}`);
-
-        //TODO: Remove Console.logs
-        console.log(fullAddress);
-        console.log(location?.geometry?.location?.lat());
-        console.log(location?.geometry?.location?.lng());
 
         setPickupLocation({
             address: fullAddress,
@@ -79,14 +74,9 @@ const PickupDropSection = () => {
         setIsPickPickupLocationModalOpen(false);
     }
 
-    const onDropLocationSelected = (location: PlaceResult | null, status: PlacesServiceStatus) => {
+    const onDropLocationSelected = (location: PlaceResult | null) => {
         if(!location) return;
         const fullAddress = (`${location.name ?? ""} ${location.formatted_address ?? ""}`);
-
-        //TODO: Remove Console.logs
-        console.log(fullAddress);
-        console.log(location?.geometry?.location?.lat());
-        console.log(location?.geometry?.location?.lng());
 
         setDropLocation({
             address: fullAddress,
@@ -96,6 +86,36 @@ const PickupDropSection = () => {
 
         setIsPickDropLocationModalOpen(false);
     }
+
+    const onPickupAndDropLocationSelected = async() => {
+        if(!pickupLocation.longitude || !pickupLocation.latitude || !dropLocation.latitude || !dropLocation.longitude) return;
+
+        const loadingToast = toast.loading("Calculating distance and estimated time");
+
+        const response = await getDistanceTime({
+            originLatitude: pickupLocation.latitude,
+            originLongitude: pickupLocation.longitude,
+            destinationLatitude: dropLocation.latitude,
+            destinationLongitude: dropLocation.longitude
+        });
+
+        toast.dismiss(loadingToast);
+
+        if(!response.success) {
+            toast.error(response.error ?? "");
+            return;
+        }
+
+        toast.success("Distance and Time Calculated Successfully");
+
+        console.log(response.data);
+    }
+
+    useEffect(() => {
+        if(pickupLocation.longitude && pickupLocation.latitude && dropLocation.latitude && dropLocation.longitude)
+            onPickupAndDropLocationSelected()
+                .catch(e => console.log(e));
+    }, [pickupLocation, dropLocation]);
 
     return (
         <div className="w-full mt-2 py-2 px-5 flex sm:flex-row flex-col items-center justify-center">
