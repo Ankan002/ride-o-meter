@@ -7,6 +7,7 @@ import {useRecoilState} from "recoil";
 import {GeographicalLocation} from "types/geographical-location";
 import {pickupLocationAtom, dropLocationAtom} from "atoms";
 import PlaceResult = google.maps.places.PlaceResult;
+import PlacesServiceStatus = google.maps.places.PlacesServiceStatus;
 
 const PickupDropSection = () => {
 
@@ -60,7 +61,8 @@ const PickupDropSection = () => {
         setIsPickDropLocationModalOpen(prev => !prev);
     };
 
-    const onPickupLocationSelected = (location: PlaceResult) => {
+    const onPickupLocationSelected = (location: PlaceResult | null, status: PlacesServiceStatus) => {
+        if(!location) return;
         const fullAddress = (`${location.name ?? ""} ${location.formatted_address ?? ""}`);
 
         //TODO: Remove Console.logs
@@ -77,7 +79,8 @@ const PickupDropSection = () => {
         setIsPickPickupLocationModalOpen(false);
     }
 
-    const onDropLocationSelected = (location: PlaceResult) => {
+    const onDropLocationSelected = (location: PlaceResult | null, status: PlacesServiceStatus) => {
+        if(!location) return;
         const fullAddress = (`${location.name ?? ""} ${location.formatted_address ?? ""}`);
 
         //TODO: Remove Console.logs

@@ -1,15 +1,17 @@
-import React, {Dispatch, SetStateAction, useEffect, useState} from 'react';
+import React, {Dispatch, SetStateAction, useEffect, useRef, useState} from 'react';
 import Modal from "react-modal";
 import {ModalHeader} from "components/modal-elements";
-import ReactGoogleAutocomplete from "react-google-autocomplete";
 import PlaceResult = google.maps.places.PlaceResult;
+import usePlacesService from "react-google-autocomplete/lib/usePlacesAutocompleteService";
+import AutocompletePrediction = google.maps.places.AutocompletePrediction;
+import PlacesServiceStatus = google.maps.places.PlacesServiceStatus;
 
 interface Props {
     isOpen: boolean;
     setIsOpen: Dispatch<SetStateAction<boolean>>;
     title: string;
     defaultText: string;
-    onPlaceResultClick: (place: PlaceResult) => void;
+    onPlaceResultClick: (place: PlaceResult | null, status: PlacesServiceStatus) => void;
 }
 
 const PickLocationModal = (props: Props) => {
@@ -17,11 +19,47 @@ const PickLocationModal = (props: Props) => {
 
     const [isFetching, setIsFetching] = useState<boolean>(false);
 
+    const [placeName, setPlaceName] = useState<string>("");
+    const [placeSearchResults, setPlaceSearchResults] = useState<Array<AutocompletePrediction>>([]);
+
+    const isLoaded = useRef<boolean>(false);
+
+    const {
+        placesService,
+        placePredictions,
+        getPlacePredictions,
+    } = usePlacesService({
+        apiKey: process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY,
+        debounce: 500
+    });
+
     const onCloseRequested = () => {
         if(isFetching) return;
 
         setIsOpen(false);
     }
+
+    const getClickedPlaceDetails = async (placePredicted: AutocompletePrediction) => {
+        setPlaceName(placePredicted.description);
+        placesService?.getDetails({
+            placeId: placePredicted.place_id,
+            fields: ["formatted_address", "geometry", "name"]
+        }, onPlaceResultClick);
+    }
+
+    useEffect(() => {
+        if(defaultText) setPlaceName(defaultText);
+    },[defaultText])
+
+    useEffect(() => {
+        if(!isLoaded.current){
+            isLoaded.current = true;
+            return;
+        }
+
+        if (placePredictions.length) setPlaceSearchResults(placePredictions)
+
+    }, [placePredictions]);
 
     return (
         <Modal
@@ -32,7 +70,6 @@ const PickLocationModal = (props: Props) => {
             style={{
                 overlay: {
                     backgroundColor: "rgba(0,0,0,0.3)",
-
                 }
             }}
             closeTimeoutMS={500}
@@ -40,18 +77,28 @@ const PickLocationModal = (props: Props) => {
             <div className="w-full h-[90vh] overflow-y-scroll bg-primaryLight border-l-2 border-r-2 border-t-2 border-l-primaryDark border-r-primaryDark border-t-primaryDark flex flex-col rounded-t-lg z-10 px-5 py-2 items-start">
                 <ModalHeader title={title} onCloseRequested={onCloseRequested} />
 
-                <ReactGoogleAutocomplete
-                    apiKey={process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY}
-                    onPlaceSelected={onPlaceResultClick}
+                <input
                     className="w-full border-2 border-primaryDark rounded px-3 py-1 font-manrope tracking-wider lg:text-xl sm:text-lg text-base mt-2 focus:outline-none"
-                    options={{
-                        fields: ["formatted_address", "geometry", "name"],
-                        strictBounds: false,
-                        types: ["establishment"]
+                    value={placeName}
+                    onChange={(e) => {
+                        setPlaceName(e.target.value);
+                        if(e.target.value.length > 0) getPlacePredictions({
+                            input: e.target.value,
+                            types: ["establishment"],
+                        })
                     }}
                     placeholder="Type places here to search"
-                    defaultValue={defaultText}
                 />
+
+                {
+                    placeSearchResults.map((result) => (
+                        <div key={result.place_id} className="w-full font-manrope tracking-wider lg:text-xl sm:text-lg text-base mt-2 pb-1 border-b-2 border-b-primaryDark cursor-pointer" onClick={() => getClickedPlaceDetails(result)}>
+                            {
+                                result.description
+                            }
+                        </div>
+                    ))
+                }
             </div>
         </Modal>
     );
