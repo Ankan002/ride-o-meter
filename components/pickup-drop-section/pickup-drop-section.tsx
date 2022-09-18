@@ -106,8 +106,6 @@ const PickupDropSection = () => {
             return;
         }
 
-        toast.success("Distance and Time Calculated Successfully");
-
         console.log(response.data);
     }
 
