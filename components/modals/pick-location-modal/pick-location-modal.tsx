@@ -29,7 +29,6 @@ const PickLocationModal = (props: Props) => {
         placePredictions,
         getPlacePredictions,
     } = usePlacesService({
-        apiKey: process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY,
         debounce: 500
     });
 
