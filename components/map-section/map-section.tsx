@@ -10,7 +10,7 @@ const MapSection = () => {
     const dropLocation = useRecoilValue<GeographicalLocation>(dropLocationAtom);
 
     return (
-        <div className="flex-1 flex flex-col items-center justify-center px-5">
+        <div className="flex-1 flex flex-col items-center justify-center px-5 mt-5">
             <Map dropLocation={dropLocation} pickupLocation={pickupLocation} />
         </div>
     );
