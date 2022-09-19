@@ -5,10 +5,11 @@ import toast from "react-hot-toast";
 import {geoDecode} from "helpers/location-encode-decode";
 import {useRecoilState, useSetRecoilState} from "recoil";
 import {GeographicalLocation} from "types/geographical-location";
-import {pickupLocationAtom, dropLocationAtom, currentRideAtom} from "atoms";
+import {pickupLocationAtom, dropLocationAtom, currentRideAtom, currentRideDirectionsAtom} from "atoms";
 import PlaceResult = google.maps.places.PlaceResult;
-import {getDistanceTime} from "helpers/get-distance-time";
 import {Ride} from "types/ride";
+import {getRoute} from "helpers/get-route";
+import DirectionsResult = google.maps.DirectionsResult;
 
 const PickupDropSection = () => {
 
@@ -20,6 +21,7 @@ const PickupDropSection = () => {
     const [dropLocation, setDropLocation] = useRecoilState<GeographicalLocation>(dropLocationAtom);
 
     const setCurrentRide = useSetRecoilState<Ride>(currentRideAtom);
+    const setCurrentRideDirection = useSetRecoilState<DirectionsResult | null>(currentRideDirectionsAtom);
 
     const onCurrentPositionCoordinatesReceived = useCallback(async(position: GeolocationPosition) => {
         const addressResponse = await geoDecode(position.coords.latitude.toString(), position.coords.longitude.toString());
@@ -90,38 +92,36 @@ const PickupDropSection = () => {
         setIsPickDropLocationModalOpen(false);
     }
 
-    const onPickupAndDropLocationSelected = async() => {
+    const fetchRoute = async() => {
         if(!pickupLocation.longitude || !pickupLocation.latitude || !dropLocation.latitude || !dropLocation.longitude) return;
 
-        const loadingToast = toast.loading("Calculating distance and estimated time");
-
-        const response = await getDistanceTime({
+        const response = await getRoute({
             originLatitude: pickupLocation.latitude,
             originLongitude: pickupLocation.longitude,
             destinationLatitude: dropLocation.latitude,
             destinationLongitude: dropLocation.longitude
         });
 
-        toast.dismiss(loadingToast);
-
-        if(!response.success) {
+        if(!response.success){
             toast.error(response.error ?? "");
             return;
         }
 
+        setCurrentRideDirection(null);
+        setCurrentRideDirection(response.directions ?? null);
         setCurrentRide(prev => ({
-            distance: response.data?.distanceInMeters,
-            time: response.data?.estimatedTimeInSeconds,
+            distance: response.distance,
+            time: response.time,
             cab: prev.cab ? prev.cab : "mini"
         }));
-
-        console.log(response.data);
     }
 
     useEffect(() => {
-        if(pickupLocation.longitude && pickupLocation.latitude && dropLocation.latitude && dropLocation.longitude)
-            onPickupAndDropLocationSelected()
+        if(pickupLocation.longitude && pickupLocation.latitude && dropLocation.latitude && dropLocation.longitude){
+            fetchRoute()
                 .catch(e => console.log(e));
+        }
+
     }, [pickupLocation, dropLocation]);
 
     return (

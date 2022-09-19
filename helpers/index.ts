@@ -1,2 +1,2 @@
 export * from "./location-encode-decode";
-export * from "./get-distance-time";
+export * from "./get-route";

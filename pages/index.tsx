@@ -35,6 +35,7 @@ const Home: NextPage = () => {
       <div className="h-screen w-full flex flex-col">
           <Navbar setIsSettingsModalOpen={setIsSettingsModalOpen} />
           {
+              //TODO: Implement a loading state
               googleLoaded && (
                   <>
                       <PickupDropSection />
