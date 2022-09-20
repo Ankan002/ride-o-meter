@@ -5,6 +5,7 @@ import {currentRideAtom} from "atoms/current-ride-atom";
 import {DetailElement} from "components/elements";
 import {FareChart} from "types/fare-chart";
 import {fareChartAtom} from "atoms/fare-chart-atom";
+import {format} from "date-fns";
 
 const RideDetailsSection = () => {
     const currentRideDetails = useRecoilValue<Ride>(currentRideAtom);
@@ -34,8 +35,23 @@ const RideDetailsSection = () => {
     }, [currentRideDetails]);
 
     const currentCharge = useMemo<string>(() => {
-        return "";
-    }, [currentRideDetails]);
+        if(!currentRideDetails.cab || !currentRideDetails.distance) return "";
+        let totalCharges: number = 0;
+
+        const distanceBasedCharges = parseFloat(((currentRideDetails.distance / 1000) * fareChart.perKilometerCharges).toFixed(2));
+
+        totalCharges += distanceBasedCharges;
+
+        const currentHour = parseInt(format(new Date(), "H"));
+
+        if(currentHour > 20 || currentHour < 6){
+            totalCharges += fareChart.nightCharges;
+        }
+
+        totalCharges += fareChart.baseCabCharges[currentRideDetails.cab];
+
+        return totalCharges % 2 === 0 ? `₹ ${totalCharges.toString()}` : `₹ ${totalCharges.toFixed(2).toString()}`;
+    }, [currentRideDetails, fareChart]);
 
     return (
         <>
@@ -49,6 +65,7 @@ const RideDetailsSection = () => {
                             />
 
                             <DetailElement details={estimatedTime} detailsTitle="Estimated Time" />
+                            <DetailElement details={currentCharge} detailsTitle="Estimated Cost" />
                         </div>
                     </div>
                 )

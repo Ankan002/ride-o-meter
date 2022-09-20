@@ -2,7 +2,6 @@ import type { NextPage } from 'next';
 import {CustomHead} from "components/elements";
 import {Navbar, SettingsModal, PickupDropSection, MapSection, RideDetailsSection} from "components";
 import React, {useEffect, useState} from "react";
-import Script from "next/script";
 import {Loader} from "@googlemaps/js-api-loader";
 import {useRecoilState} from "recoil";
 import {googleLoadedAtom} from "atoms/google-loaded-atom";
@@ -18,6 +17,7 @@ const Home: NextPage = () => {
     });
 
     useEffect(() => {
+        // console.log(parseInt(format(new Date(), "H")));
         if(window !== undefined && window?.google) {
             setGoogleLoaded(true);
             return;
