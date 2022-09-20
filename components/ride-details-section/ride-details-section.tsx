@@ -1,4 +1,4 @@
-import React, {useMemo} from 'react';
+import React, {useEffect, useMemo, useRef} from 'react';
 import {useRecoilValue} from "recoil";
 import {Ride} from "types/ride";
 import {currentRideAtom} from "atoms/current-ride-atom";
@@ -13,7 +13,6 @@ const RideDetailsSection = () => {
 
     const estimatedTime = useMemo<string>(() => {
         if(!currentRideDetails.time) return "";
-        console.log(currentRideDetails)
 
         let time: string = "";
 

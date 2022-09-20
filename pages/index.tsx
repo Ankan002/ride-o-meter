@@ -1,6 +1,6 @@
 import type { NextPage } from 'next';
 import {CustomHead} from "components/elements";
-import {Navbar, SettingsModal, PickupDropSection, MapSection, RideDetailsSection} from "components";
+import {Navbar, SettingsModal, PickupDropSection, MapSection, RideDetailsSection, PickCabSection} from "components";
 import React, {useEffect, useState} from "react";
 import {Loader} from "@googlemaps/js-api-loader";
 import {useRecoilState} from "recoil";
@@ -17,7 +17,6 @@ const Home: NextPage = () => {
     });
 
     useEffect(() => {
-        // console.log(parseInt(format(new Date(), "H")));
         if(window !== undefined && window?.google) {
             setGoogleLoaded(true);
             return;
@@ -32,7 +31,7 @@ const Home: NextPage = () => {
     <div className="min-h-screen w-full flex flex-col bg-primaryLight">
       <CustomHead title="Ride O Meter" />
 
-      <div className="h-screen w-full flex flex-col pb-3">
+      <div className="min-h-screen w-full flex flex-col pb-3 bg-primaryLight">
           <Navbar setIsSettingsModalOpen={setIsSettingsModalOpen} />
           {
               //TODO: Implement a loading state
@@ -43,6 +42,7 @@ const Home: NextPage = () => {
                   </>
               )
           }
+          <PickCabSection />
           <RideDetailsSection />
       </div>
 

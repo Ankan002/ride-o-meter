@@ -7,18 +7,18 @@
 
 ::-webkit-scrollbar {
     width: 8px;
-    height: 8px;
+    height: 4px;
 }
 
 /* Track */
 ::-webkit-scrollbar-track {
-    background: rgba(0,0,0,0.1);
+    background: rgba(0,0,0,0);
     border-radius: 100vh;
     height: 100%;
 }
 
 ::-webkit-scrollbar-corner {
-    background: rgba(0,0,0,0.1);
+    background: rgba(0,0,0,0);
 }
 
 /* Handle */

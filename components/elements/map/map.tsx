@@ -43,7 +43,7 @@ const Map = (props: Props) => {
         <GoogleMap
             mapContainerStyle={{
                 width: "100%",
-                height: route ? "50vh" : "60vh",
+                height: route ? "45vh" : "65vh",
                 borderRadius: 20,
                 border: "2px solid"
             }}

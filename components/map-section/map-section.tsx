@@ -12,7 +12,7 @@ const MapSection = () => {
     const currentRouteDirections = useRecoilValue<DirectionsResult | null>(currentRideDirectionsAtom);
 
     return (
-        <div className="flex-1 flex flex-col items-center justify-center px-5 mt-5">
+        <div className="flex-1 flex flex-col items-center justify-center px-5 mt-3">
             <Map dropLocation={dropLocation} pickupLocation={pickupLocation} route={currentRouteDirections} />
         </div>
     );
