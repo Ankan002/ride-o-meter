@@ -1,0 +1,1 @@
+export {default as DetailElement} from "./detail-element";

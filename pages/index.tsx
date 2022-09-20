@@ -1,6 +1,6 @@
 import type { NextPage } from 'next';
 import {CustomHead} from "components/elements";
-import {Navbar, SettingsModal, PickupDropSection, MapSection} from "components";
+import {Navbar, SettingsModal, PickupDropSection, MapSection, RideDetailsSection} from "components";
 import React, {useEffect, useState} from "react";
 import Script from "next/script";
 import {Loader} from "@googlemaps/js-api-loader";
@@ -32,7 +32,7 @@ const Home: NextPage = () => {
     <div className="min-h-screen w-full flex flex-col bg-primaryLight">
       <CustomHead title="Ride O Meter" />
 
-      <div className="h-screen w-full flex flex-col">
+      <div className="h-screen w-full flex flex-col pb-3">
           <Navbar setIsSettingsModalOpen={setIsSettingsModalOpen} />
           {
               //TODO: Implement a loading state
@@ -43,6 +43,7 @@ const Home: NextPage = () => {
                   </>
               )
           }
+          <RideDetailsSection />
       </div>
 
       <SettingsModal isOpen={isSettingsModalOpen} setIsOpen={setIsSettingsModalOpen} />
