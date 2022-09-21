@@ -11,7 +11,29 @@ Ride O Meter is an app that can predict your ride expenses under current circums
 ![GitHub](https://img.shields.io/badge/github-%23121011.svg?style=for-the-badge&logo=github&logoColor=white)
 ![Vercel](https://img.shields.io/badge/vercel-%23000000.svg?style=for-the-badge&logo=vercel&logoColor=white)
 
-## Screenshots
+### Technologies Used
+
+- NodeJS
+- NextJS
+- RecoilJS
+- TailwindCSS
+- Google Maps API
+- Google Cloud Platform
+- Vercel
+
+### Main Features
+
+- Pick pickup and drop location.
+- Pick your current location as your pickup location.
+- Show your pickup location.
+- As you pick both of your pickup and drop location, a path will be showed between two points on the map.
+- If any of your points change, the path will automatically be updated.
+- When you start searching for the place auto complete will start appearing.
+- Once the path is calculated the fare, distance and estimated time will be shown below.
+- You can also pick vehicle of your choice, and the fares will update accordingly in realtime.
+- You can also update the base cab fares from the settings as well as the night charges and per kilometer charges.
+
+### Screenshots
 
 <img src="https://github.com/Ankan002/ride-o-meter/blob/main/screenshots/first-render.png" alt="" />
 
@@ -19,11 +41,11 @@ Ride O Meter is an app that can predict your ride expenses under current circums
 
 <img src="https://github.com/Ankan002/ride-o-meter/blob/main/screenshots/active-map.png" alt="" />
 
-## Performance
+### Performance
 
 <img src="https://github.com/Ankan002/ride-o-meter/blob/main/screenshots/performance/performance.png" alt="" />
 
-## Special Thanks and Attributes
+### Special Thanks and Attributes
 
 - Suv Icons: [Suv icons created by Freepik - Flaticon](https://www.flaticon.com/free-icons/suv)
 - Car Icons: [Car icons created by kerismaker - Flaticon](https://www.flaticon.com/free-icons/car)
