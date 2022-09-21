@@ -2,6 +2,8 @@
 
 Ride O Meter is an app that can predict your ride expenses under current circumstances and rate.
 
+Live App: [Ride O Meter](https://ride-o-meter.ankan.tech)
+
 ![NodeJS](https://img.shields.io/badge/node.js-6DA55F?style=for-the-badge&logo=node.js&logoColor=white)
 ![Next JS](https://img.shields.io/badge/Next-black?style=for-the-badge&logo=next.js&logoColor=whitev)
 ![TailwindCSS](https://img.shields.io/badge/tailwindcss-%2338B2AC.svg?style=for-the-badge&logo=tailwind-css&logoColor=white)
